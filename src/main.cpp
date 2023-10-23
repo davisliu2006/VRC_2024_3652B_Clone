@@ -1,8 +1,8 @@
 #include "globals.hpp"
-// #include "display/main.hpp"
+#include "display/main.hpp"
 #include "lib/autonomous.hpp"
 #include "lib/opcontrol.hpp"
-// #include "route/route.hpp"
+#include "route/route.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
