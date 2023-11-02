@@ -12,7 +12,8 @@ namespace dashboard {
 
     // motor temperatures
     inline vector<vector<tuple<pros::Motor, string, int>>> temp_data = {
-        
+        {{flmotor, "FL", 0}, {frmotor, "FR", 0}},
+        {{rlmotor, "RL", 0}, {rrmotor, "RR", 0}}
     };
     inline void get_temp() {
         for (auto& line: temp_data) {

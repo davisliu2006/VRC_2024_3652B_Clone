@@ -11,7 +11,19 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-	
+    // lcd
+    display::init_all();
+    display::on_init();
+
+    // drivetrain
+    flmotor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    frmotor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    rlmotor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    rrmotor.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+    WHEEL_RPM = gear_mp[flmotor.get_gearing()];
+    WHEEL_RPS = WHEEL_RPM/60;
+    WHEEL_LSPD = WHEEL_RPS*WHEEL_C;
+    cout << "WHEEL_RPM: " << WHEEL_RPM << '\n';
 }
 
 /**
@@ -19,7 +31,11 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    display::on_disable();
+    sens::reset();
+    auton::need_sensreset = false;
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -30,7 +46,9 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+    display::on_init();
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -43,7 +61,10 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+    display::on_auton();
+    auton::init();
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -59,5 +80,8 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	
+    display::on_opc();
+    if (!auton::did_init) {auton::init();}
+    auton::need_sensreset = true;
+    opcontrol_start();
 }
