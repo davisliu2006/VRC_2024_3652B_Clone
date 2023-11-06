@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../globals.hpp"
+#include "sensing.hpp"
 
 // maps joystick position to drive speed
 inline double joymap(int x){
