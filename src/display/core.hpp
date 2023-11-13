@@ -6,6 +6,8 @@ namespace display {
     const int SX = 480;
     const int SY = 272;
 
+    // CLASSES
+
     // button
     struct Button {
         static const uint32_t DEF_CLR = RGB2COLOR(150, 150, 150);
@@ -90,6 +92,7 @@ namespace display {
         }
     };
 
+    // on screen press
     inline void on_press() {
         auto status = pros::screen::touch_status();
         auto& x = status.x;
@@ -97,10 +100,12 @@ namespace display {
         GUILayer::check_all(x, y);
     }
 
+    // initialize
     inline void init() {
         pros::screen::touch_callback(on_press, pros::E_TOUCH_PRESSED);
     }
     
+    // update
     inline void update() {
         pros::screen::set_eraser(RGB2COLOR(0, 0, 0));
         pros::screen::erase();

@@ -6,6 +6,8 @@
 namespace [[deprecated]] console {
     using namespace display;
 
+    // DEFINITIONS
+
     // function declarations
     void init(); void update();
 
@@ -27,6 +29,8 @@ namespace [[deprecated]] console {
             }
         }
     }
+
+    // EVENTS
 
     // initialize
     inline void init() {
@@ -52,6 +56,8 @@ namespace [[deprecated]] console {
         lbl->text = str;
         display::update();
     }
+
+    // MISC
 
     // ostream
     struct OStream {

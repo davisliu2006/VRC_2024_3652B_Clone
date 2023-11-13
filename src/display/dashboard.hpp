@@ -7,6 +7,8 @@
 namespace dashboard {
     using namespace display;
 
+    //DEFINITIONS
+
     const double delay = 1;
     inline double displ_time = 0;
 
@@ -36,6 +38,8 @@ namespace dashboard {
             pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
         }
     }
+
+    //EVENTS
 
     // initialize
     inline void init() {

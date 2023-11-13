@@ -2,10 +2,15 @@
 
 #include "../globals.hpp"
 #include "sensing.hpp"
+#include "subsystems.hpp"
 
 namespace auton {
+    // DEFINITIONS
+
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 100; // changes turn scaling upper bound angle
+
+    // SIMPLE MOVEMENT
 
     // simple move
     inline void advance(int vel) {
@@ -14,11 +19,11 @@ namespace auton {
         rlmotor.move_velocity(vel);
         rrmotor.move_velocity(vel);
     }
-    inline void move(double leftVel, double rightVel) {
-        flmotor.move_velocity(leftVel);
-        frmotor.move_velocity(rightVel);
-        rlmotor.move_velocity(leftVel);
-        rrmotor.move_velocity(rightVel);
+    inline void move(double lvel, double rvel) {
+        flmotor.move_velocity(lvel);
+        frmotor.move_velocity(rvel);
+        rlmotor.move_velocity(lvel);
+        rrmotor.move_velocity(rvel);
     }
 
     // simple turn
@@ -51,6 +56,8 @@ namespace auton {
             sens::update();
         }
     }
+
+    // MEASURED MOVEMENT
 
     // move distance
     inline void advance_time(double vel, double dt) {
@@ -106,7 +113,8 @@ namespace auton {
     inline bool need_sens_reset = false;
     /*
     Runs at the beginning of autonomous before any route.
-    For any initializations that cannot occur during initialize().
+    For any initializations that cannot occur during initialize(),
+    such as calibrating moving parts.
     */
     inline void init() {
         did_init = true;
@@ -115,5 +123,8 @@ namespace auton {
             sens::reset();
         }
         need_sens_reset = false;
+        // catapult
+        
+        // claw
     }
 }

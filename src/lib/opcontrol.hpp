@@ -2,6 +2,7 @@
 
 #include "../globals.hpp"
 #include "sensing.hpp"
+#include "../display/main.hpp"
 
 // maps joystick position to drive speed
 inline double joymap(int x){
@@ -15,6 +16,12 @@ inline void opcontrol_start() {
     bool drv_rev = 1; // reverse drivetrain: set to -1
 
     while (true) {
+        // sensing
+        sens::update();
+
+        // display
+        dashboard::update();
+
         // drivetrain
         double x = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X))*drv_rev;
         double y = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))*drv_rev;
@@ -23,5 +30,9 @@ inline void opcontrol_start() {
         frmotor.move_velocity((y-rot)*WHEEL_RPM);
         rlmotor.move_velocity((y+rot)*WHEEL_RPM);
         rrmotor.move_velocity((y-rot)*WHEEL_RPM);
+
+        // claw
+
+        // catapult
     }
 }

@@ -8,6 +8,8 @@ enum alliance_e {TEAM_RED, TEAM_BLUE};
 namespace selection {
     using namespace display;
 
+    // DEFINITIONS
+
     // function declarations
     void btnpress(Button* btn);
     void init(); void update();
@@ -42,6 +44,8 @@ namespace selection {
         update();
     });
     inline GUILayer alliance_select;
+
+    // EVNENTS
 
     // intialize
     inline void init() {
