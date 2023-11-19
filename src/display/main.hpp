@@ -11,7 +11,7 @@ namespace display {
         selection::init();
     }
 
-    // display to show on initialize
+    // display to show on initialize()
     inline void on_init() {
         selection::enable();
     }
