@@ -4,6 +4,8 @@
 #include "core.hpp"
 #include "../lib/sensing.hpp"
 
+#define DASHBOARD_IMPL 2
+#if DASHBOARD_IMPL == 1
 namespace dashboard {
     using namespace display;
 
@@ -13,17 +15,10 @@ namespace dashboard {
     inline double displ_time = 0;
 
     // motor temperatures
-    inline vector<vector<tuple<pros::Motor, string, int>>> temp_data = {
-        {{flmotor, "FL", 0}, {frmotor, "FR", 0}},
-        {{rlmotor, "RL", 0}, {rrmotor, "RR", 0}}
+    inline vector<vector<tuple<pros::Motor, string>>> temp_data = {
+        {{flmotor, "FL"}, {frmotor, "FR"}},
+        {{rlmotor, "RL"}, {rrmotor, "RR"}}
     };
-    inline void get_temp() {
-        for (auto& line: temp_data) {
-            for (auto& [mtr, name, temp]: line) {
-                temp = mtr.get_temperature();
-            }
-        }
-    }
     inline void displ_temp() {
         display::update();
         pros::screen::set_pen(RGB2COLOR(255, 255, 255));
@@ -31,8 +26,8 @@ namespace dashboard {
             auto& line = temp_data[i];
             string txt = "";
             for (int j = 0; j < line.size(); j++) {
-                auto& [mtr, name, temp] = line[j];
-                txt += name+": "+to_string(temp)+"°C";
+                auto& [mtr, name] = line[j];
+                txt += name+": "+to_string(int(mtr.get_temperature()))+"°C";
                 txt += (j == line.size()-1? '\n' : '\t');
             }
             pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
@@ -42,9 +37,11 @@ namespace dashboard {
     //EVENTS
 
     // initialize
-    inline void init() {
+    inline void init() {}
 
-    }
+    // enable and disable
+    inline void enable() {}
+    inline void disable() {}
     
     // update
     /*
@@ -55,8 +52,10 @@ namespace dashboard {
             displ_temp();
             displ_time -= delay;
         } else {
-            get_temp();
             displ_time += sens::dt;
         }
     }
 }
+#elif DASHBOARD_IMPL == 2
+#include "dashboard2.hpp"
+#endif
