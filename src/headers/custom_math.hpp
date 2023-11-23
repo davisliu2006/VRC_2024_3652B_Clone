@@ -18,6 +18,12 @@ inline double angl_180(double x) {
     else if (x <= -180) {x += 360;}
     return x;
 }
+inline double reduce_angl(double x, double period) {
+    x = fmod(x, period);
+    if (x > period/2) {x -= period;}
+    else if (x <= period/2) {x += period;}
+    return x;
+}
 
 // simple math
 template <class type>

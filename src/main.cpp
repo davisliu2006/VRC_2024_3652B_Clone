@@ -24,6 +24,11 @@ void initialize() {
     WHEEL_RPS = WHEEL_RPM/60;
     WHEEL_LSPD = WHEEL_RPS*WHEEL_C;
     cout << "WHEEL_RPM: " << WHEEL_RPM << '\n';
+
+    // catapult
+    catamotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    CATA_RPM = gear_mp[catamotor.get_gearing()];
+    cout << "CATA_RPM: " << CATA_RPM << '\n';
 }
 
 /**

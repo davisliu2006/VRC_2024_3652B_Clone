@@ -124,7 +124,7 @@ namespace auton {
         }
         need_sens_reset = false;
         // catapult
-        
+        cata::init();
         // claw
     }
 }

@@ -56,15 +56,14 @@ const double WHEEL_C = WHEEL_R*M_PI*2;
 inline double WHEEL_RPM = 0; // initialize later
 inline double WHEEL_RPS = 0; // initialize later
 inline double WHEEL_LSPD = 0; // initialize later
-// const double DRV_RPS = WHEEL_C*GRN_RPS/DRV_C;
-// const double DRV_DPS = DRV_RPS*360;
 inline pros::Motor flmotor(17, pros::E_MOTOR_GEAR_BLUE, true);
 inline pros::Motor frmotor(20, pros::E_MOTOR_GEAR_BLUE);
 inline pros::Motor rlmotor(18, pros::E_MOTOR_GEAR_BLUE, true);
 inline pros::Motor rrmotor(19, pros::E_MOTOR_GEAR_BLUE);
 
 // catapult
-inline pros::Motor loadmotor(16);
+inline double CATA_RPM = 0; // initialize later
+inline pros::Motor catamotor(16, pros::E_MOTOR_GEAR_RED);
 
 // claw
 inline pros::ADIDigitalOut clawflip(1);
@@ -93,12 +92,3 @@ inline double time() {
     return pros::micros()*0.000001;
 }
 #endif
-
-// TEMPLATE
-
-enum AutonEnum {
-    BLUE_CLOSE_HIGH = -1, BLUE_CLOSE_LOW = -2, BLUE_FAR_HIGH = -3, BLUE_FAR_LOW = -4, BLUE_SOLO_AWP = -5,
-    RED_CLOSE_HIGH = 1, RED_CLOSE_FAR = 2, RED_FAR_HIGH = 3, RED_FAR_LOW = 4, RED_SOLO_AWP = 5,
-    NOTHING = 10, SKILLS = 0
-};
-inline int autonSelection = NOTHING; // specifies the default auton selected
