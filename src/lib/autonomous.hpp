@@ -124,7 +124,10 @@ namespace auton {
         }
         need_sens_reset = false;
         // catapult
-        cata::init();
+        catamotor.move(MTR_MAX*0.1);
+        wait(0.3);
+        catamotor.tare_position();
+        catamotor.move_absolute(cata::SLIP_LOAD, CATA_RPM);
         // claw
     }
 }

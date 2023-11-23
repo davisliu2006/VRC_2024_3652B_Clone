@@ -15,27 +15,30 @@ namespace cata {
     const double MTR_TURN = SLIP_TURN*SCND_GEARING;
     const double MTR_UNLOAD = SLIP_UNLOAD*SCND_GEARING;
     const bool START_STATE = false;
-    
-    inline void init() {
-        if (START_STATE == false) {
-            catamotor.tare_position();
-            catamotor.move_absolute(SLIP_LOAD, CATA_RPM);
-        } else {
-            //
-        }
-    }
 
+    // sensing
     inline double mtr_angle() {return catamotor.get_position();}
     inline double slip_angle() {return mtr_angle()/SCND_GEARING;}
-    // get state, loaded = true, unloaded = false
+    /*
+    Loaded = true, unloaded = false.
+    */
     inline bool get_state() {
         double rot = catamotor.get_position();
         double load_diff = angl_180(slip_angle()-SLIP_LOAD);
         double unload_diff = angl_180(slip_angle()-SLIP_LOAD-SLIP_UNLOAD);
         return abs(load_diff) <= abs(unload_diff);
     }
-    // set state, loaded = true, unloaded = false
-    static void set_state(bool val) {
+    [[deprecated]] inline bool is_moving() {
+        return false;
+    }
+
+
+    // movement
+    /*
+    Loaded = true, unloaded = false.
+    */
+    inline void set_state(bool val) {
+        // if (is_moving()) {return;}
         long nturns;
         if (val && !get_state()) { // load
             nturns = round((mtr_angle()-MTR_LOAD-MTR_UNLOAD)/MTR_TURN);
@@ -45,6 +48,8 @@ namespace cata {
             catamotor.move_absolute(nturns*MTR_TURN + MTR_LOAD + MTR_UNLOAD, CATA_RPM);
         }
     }
+    inline void load() {set_state(true);}
+    inline void unload() {set_state(false);}
 };
 
 // claw
