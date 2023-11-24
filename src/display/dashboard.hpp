@@ -4,8 +4,6 @@
 #include "core.hpp"
 #include "../lib/sensing.hpp"
 
-#define DASHBOARD_IMPL 2
-#if DASHBOARD_IMPL == 1
 namespace dashboard {
     using namespace display;
 
@@ -14,34 +12,23 @@ namespace dashboard {
     const double delay = 1;
     inline double displ_time = 0;
 
-    // motor temperatures
-    inline vector<vector<tuple<pros::Motor, string>>> temp_data = {
-        {{flmotor, "FL"}, {frmotor, "FR"}},
-        {{rlmotor, "RL"}, {rrmotor, "RR"}}
-    };
-    inline void displ_temp() {
-        display::update();
-        pros::screen::set_pen(RGB2COLOR(255, 255, 255));
-        for (int i = 0; i < temp_data.size(); i++) {
-            auto& line = temp_data[i];
-            string txt = "";
-            for (int j = 0; j < line.size(); j++) {
-                auto& [mtr, name] = line[j];
-                txt += name+": "+to_string(int(mtr.get_temperature()))+"°C";
-                txt += (j == line.size()-1? '\n' : '\t');
-            }
-            pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
+    // general
+    inline vector<vector<function<string()>>> display_lines = {
+        {
+            []() {return "FL: "+to_string(int(flmotor.get_temperature()))+"°C";},
+            []() {return "FR: "+to_string(frmotor.get_temperature())+"°C";},
+            
+        },
+        {
+            []() {return "RL: "+to_string(int(rlmotor.get_temperature()))+"°C";},
+            []() {return "RR: "+to_string(int(rrmotor.get_temperature()))+"°C";},
         }
-    }
+    };
 
     //EVENTS
 
     // initialize
     inline void init() {}
-
-    // enable and disable
-    inline void enable() {}
-    inline void disable() {}
     
     // update
     /*
@@ -49,13 +36,19 @@ namespace dashboard {
     */
     inline void update() {
         if (displ_time >= delay) {
-            displ_temp();
             displ_time -= delay;
+            display::update();
+            for (int i = 0; i < display_lines.size(); i++) {
+                auto& line = display_lines[i];
+                string txt;
+                for (int j = 0; j < line.size(); j++) {
+                    txt += line[j]();
+                    if (j != line.size()-1) {txt += "    ";}
+                }
+                pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
+            }
         } else {
             displ_time += sens::dt;
         }
     }
 }
-#elif DASHBOARD_IMPL == 2
-#include "dashboard2.hpp"
-#endif
