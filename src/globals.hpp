@@ -51,7 +51,7 @@ inline map<int,int> gear_mp = {
 const int ADI_MAX = 4095;
 
 // drivetrain
-const double WHEEL_R  = 1.0*60/84; // inches
+const double WHEEL_R  = 3.25/2*60/84; // inches
 const double WHEEL_C = WHEEL_R*M_PI*2;
 inline double WHEEL_RPM = 0; // initialize later
 inline double WHEEL_RPS = 0; // initialize later
@@ -65,9 +65,15 @@ inline pros::Motor rrmotor(19, pros::E_MOTOR_GEAR_BLUE);
 inline double CATA_RPM = 0; // initialize later
 inline pros::Motor catamotor(16, pros::E_MOTOR_GEAR_RED);
 
-// claw
+// intake
+#define INTAKE_TYPE TYPE_MTR
+#if INTAKE_TYPE == TYPE_PNEU
 inline pros::ADIDigitalOut clawflip(1);
 inline pros::ADIDigitalOut clawopen(2);
+#elif INTAKE_TYPE == TYPE_MTR
+inline int INTK_RPM = 0; // initialize later
+inline pros::Motor intake(15);
+#endif
 
 // sensing
 const int TILE = 24; // inches

@@ -3,6 +3,7 @@
 #include "../globals.hpp"
 #include "core.hpp"
 #include "../lib/sensing.hpp"
+#include "../lib/subsystems.hpp"
 
 namespace dashboard {
     using namespace display;
@@ -12,8 +13,9 @@ namespace dashboard {
     const double delay = 1;
     inline double displ_time = 0;
 
-    // general
+    // lines to display
     inline vector<vector<function<string()>>> display_lines = {
+        // drivetrain
         {
             []() {return "FL: "+to_string(int(flmotor.get_temperature()))+"°C";},
             []() {return "FR: "+to_string(frmotor.get_temperature())+"°C";},
@@ -22,6 +24,28 @@ namespace dashboard {
         {
             []() {return "RL: "+to_string(int(rlmotor.get_temperature()))+"°C";},
             []() {return "RR: "+to_string(int(rrmotor.get_temperature()))+"°C";},
+        },
+        // catapult
+        {
+            []() {return "Cata: "+to_string(int(catamotor.get_temperature()))+"°C";},
+            []() {return "is_moving: "+string(cata::is_moving()? "YES":"NO");},
+            []() {return "angle: "+to_string(cata::slip_angle())+"deg";},
+        },
+        // intake
+        #if INTAKE_TYPE == TYPE_MTR
+        {
+            []() {return "Intake: "+to_string(int(intake.get_temperature()))+"°C";},
+        },
+        #endif
+        // errors
+        {
+            []() {
+                if ((inertial.get_status() & pros::c::E_IMU_STATUS_ERROR) == pros::c::E_IMU_STATUS_ERROR) {
+                    return "ERROR: IMU NOT FOUND";
+                } else {
+                    return "";
+                }
+            }
         }
     };
 
@@ -43,7 +67,7 @@ namespace dashboard {
                 string txt;
                 for (int j = 0; j < line.size(); j++) {
                     txt += line[j]();
-                    if (j != line.size()-1) {txt += "    ";}
+                    if (j != line.size()-1) {txt += "\t";}
                 }
                 pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
             }

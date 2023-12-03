@@ -2,6 +2,7 @@
 
 #include "../globals.hpp"
 #include "sensing.hpp"
+#include "subsystems.hpp"
 #include "../display/main.hpp"
 
 // maps joystick position to drive speed
@@ -31,8 +32,23 @@ inline void opcontrol_start() {
         rlmotor.move_velocity((y+rot)*WHEEL_RPM);
         rrmotor.move_velocity((y-rot)*WHEEL_RPM);
 
-        // claw
+        // intake
+        #if INTAKE_TYPE == TYPE_PNEU
+        #elif INTAKE_TYPE == TYPE_MTR
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+            intake.move(MTR_MAX);
+        } else if (pros::E_CONTROLLER_DIGITAL_L1) {
+            intake.move(-MTR_MAX);
+        } else {
+            intake.move(0);
+        }
+        #endif
 
         // catapult
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            cata::load();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            cata::unload();
+        }
     }
 }

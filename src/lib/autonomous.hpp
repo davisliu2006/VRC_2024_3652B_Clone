@@ -7,6 +7,8 @@
 namespace auton {
     // DEFINITIONS
 
+    const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (minimum distance diff (inches))
+    const double ADVNC_MAXDIFF = 3; // changes advance_dist scaling upper bound distance (inches)
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 100; // changes turn scaling upper bound angle
 
@@ -79,14 +81,15 @@ namespace auton {
         }
         stop();
     }
-    inline void advance_dist(double dist, double vel) {
-        double ang = dist/WHEEL_C;
-        flmotor.move_relative(ang, vel);
-        frmotor.move_relative(ang, vel);
-        rlmotor.move_relative(ang, vel);
-        rrmotor.move_relative(ang, vel);
-        while (abs(flmotor.get_target_velocity()) > 1) {
-            sens::update();
+    inline void advance_dist(double dist, double mult = 1) {
+        double pos0 = drv::get_avg_ldist();
+        double pos1 = pos0;
+        double dpos = pos1-pos0;
+        while (abs(dist-dpos) > ADVNC_MINDIFF) {
+            pos1 = drv::get_avg_ldist();
+            dpos = pos1-pos0;
+            double distdiff = min(1.0, dpos/ADVNC_MAXDIFF);
+            advance(distdiff*WHEEL_RPM*mult);
         }
         stop();
     }
@@ -128,6 +131,6 @@ namespace auton {
         wait(0.3);
         catamotor.tare_position();
         catamotor.move_absolute(cata::SLIP_LOAD, CATA_RPM);
-        // claw
+        // intake
     }
 }

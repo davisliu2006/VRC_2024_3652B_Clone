@@ -29,6 +29,13 @@ void initialize() {
     catamotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     CATA_RPM = gear_mp[catamotor.get_gearing()];
     cout << "CATA_RPM: " << CATA_RPM << '\n';
+
+    // intake
+    #if INTAKE_TYPE == TYPE_PNEU
+    #elif INTAKE_TYPE == TYPE_MTR
+    INTK_RPM = gear_mp[intake.get_gearing()];
+    cout << "INTK_RPM: " << INTK_RPM << '\n';
+    #endif
 }
 
 /**

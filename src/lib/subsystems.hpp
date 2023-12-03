@@ -29,9 +29,8 @@ namespace cata {
         return abs(load_diff) <= abs(unload_diff);
     }
     [[deprecated]] inline bool is_moving() {
-        return false;
+        return abs(catamotor.get_target_position()-catamotor.get_position()) > 10;
     }
-
 
     // movement
     /*
@@ -50,14 +49,27 @@ namespace cata {
     }
     inline void load() {set_state(true);}
     inline void unload() {set_state(false);}
-};
+}
 
-// claw
-struct claw {
+// intake
+#if INTAKE_TYPE == TYPE_PNEU
+namespace claw {
+    inline void open() {}
+    inline void close() {}
+    inline void flip_up() {}
+    inline void flip_down() {}
+}
+#elif INTAKE_TYPE == TYPE_MTR
 
-};
+#endif
 
 // drivetrain
 namespace drv {
-    
+    inline double get_avg_position() {
+        return (flmotor.get_position()+frmotor.get_position()
+            +rlmotor.get_position()+rrmotor.get_position())/4;
+    }
+    inline double get_avg_ldist() {
+        return get_avg_position()/360*WHEEL_C;
+    }
 }
