@@ -18,7 +18,7 @@ namespace dashboard {
         // drivetrain
         {
             []() {return "FL: "+to_string(int(flmotor.get_temperature()))+"°C";},
-            []() {return "FR: "+to_string(frmotor.get_temperature())+"°C";},
+            []() {return "FR: "+to_string(int(frmotor.get_temperature()))+"°C";},
             
         },
         {
@@ -29,7 +29,7 @@ namespace dashboard {
         {
             []() {return "Cata: "+to_string(int(catamotor.get_temperature()))+"°C";},
             []() {return "is_moving: "+string(cata::is_moving()? "YES":"NO");},
-            []() {return "angle: "+to_string(cata::slip_angle())+"deg";},
+            []() {return "state: "+string(cata::get_state()? "loaded":"unloaded");},
         },
         // intake
         #if INTAKE_TYPE == TYPE_MTR

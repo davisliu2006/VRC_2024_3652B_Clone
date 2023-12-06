@@ -63,7 +63,7 @@ inline pros::Motor rrmotor(19, pros::E_MOTOR_GEAR_BLUE);
 
 // catapult
 inline double CATA_RPM = 0; // initialize later
-inline pros::Motor catamotor(16, pros::E_MOTOR_GEAR_RED);
+inline pros::Motor catamotor(16, pros::E_MOTOR_GEAR_RED, true);
 
 // intake
 #define INTAKE_TYPE TYPE_MTR
@@ -79,7 +79,7 @@ inline pros::Motor intake(15);
 const int TILE = 24; // inches
 const int FIELD = TILE*6;
 const double GRVTY = 9.8;
-inline pros::IMU inertial(16);
+inline pros::IMU inertial(11);
 inline pros::Rotation trackx(9);
 inline pros::Rotation tracky(8);
 

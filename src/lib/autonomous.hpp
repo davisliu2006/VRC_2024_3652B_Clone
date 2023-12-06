@@ -130,7 +130,7 @@ namespace auton {
         catamotor.move(MTR_MAX*0.1);
         wait(0.3);
         catamotor.tare_position();
-        catamotor.move_absolute(cata::SLIP_LOAD, CATA_RPM);
+        catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
         // intake
     }
 }

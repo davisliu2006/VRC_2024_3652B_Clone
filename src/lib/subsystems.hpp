@@ -47,7 +47,7 @@ namespace cata {
         }
     }
     inline void load() {set_state(true);}
-    inline void unload() {set_state(false);}
+    inline void release() {set_state(false);}
 }
 
 // intake
