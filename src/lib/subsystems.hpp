@@ -14,6 +14,7 @@ namespace cata {
     const double MTR_LOAD = SLIP_LOAD*SCND_GEARING;
     const double MTR_TURN = SLIP_TURN*SCND_GEARING;
     const double MTR_UNLOAD = SLIP_UNLOAD*SCND_GEARING;
+    const bool START_STATE = false;
 
     // sensing
     inline double mtr_angle() {return catamotor.get_position();}

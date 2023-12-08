@@ -18,12 +18,12 @@ namespace selection {
     inline int route = 1;
     inline vector<Button*> buttons = {
         new Button("Skills", SX*0.25, SY*0.1, SX*0.5, SY*0.2, btnpress),
-        new Button("Auton 1", SX*0.125, SY*0.3, SX*0.25, SY*0.2, btnpress),
-        new Button("Auton 2", SX*0.375, SY*0.3, SX*0.25, SY*0.2, btnpress),
-        new Button("Auton 3", SX*0.625, SY*0.3, SX*0.25, SY*0.2, btnpress),
-        new Button("Auton 4", SX*0.125, SY*0.5, SX*0.25, SY*0.2, btnpress),
-        new Button("Auton 5", SX*0.375, SY*0.5, SX*0.25, SY*0.2, btnpress),
-        new Button("Auton 6", SX*0.625, SY*0.5, SX*0.25, SY*0.2, btnpress)
+        new Button("Far 1", SX*0.125, SY*0.3, SX*0.25, SY*0.2, btnpress),
+        new Button("Close 1", SX*0.375, SY*0.3, SX*0.25, SY*0.2, btnpress),
+        new Button("Test 1", SX*0.625, SY*0.3, SX*0.25, SY*0.2, btnpress),
+        new Button("Test 2", SX*0.125, SY*0.5, SX*0.25, SY*0.2, btnpress),
+        new Button("Test 3", SX*0.375, SY*0.5, SX*0.25, SY*0.2, btnpress),
+        new Button("Test 4", SX*0.625, SY*0.5, SX*0.25, SY*0.2, btnpress)
     };
     inline void btnpress(Button* btn) {
         for (int i = 0; i < buttons.size(); i++) {

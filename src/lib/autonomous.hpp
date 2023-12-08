@@ -127,10 +127,15 @@ namespace auton {
         }
         need_sens_reset = false;
         // catapult
-        catamotor.move(MTR_MAX*0.1);
-        wait(0.3);
-        catamotor.tare_position();
-        catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+        if (!cata::START_STATE) {
+            catamotor.move(MTR_MAX*0.1);
+            wait(0.3);
+            catamotor.tare_position();
+            catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+        } else {
+            catamotor.set_zero_position(-cata::MTR_LOAD);
+            catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+        }
         // intake
     }
 }

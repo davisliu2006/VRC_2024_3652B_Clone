@@ -82,6 +82,17 @@ void autonomous() {
     display::on_auton();
     auton::init();
     route::test_route();
+    static vector<function<void()>> route_mp = {
+        route::skills,
+        route::close_hi,
+        route::far_hi,
+        route::close_lo,
+        route::close_hi,
+        route::test
+    };
+    if (selection::route < route_mp.size()) {
+        route_mp[selection::route]();
+    }
 }
 
 /**
