@@ -3,6 +3,7 @@
 #include "../globals.hpp"
 #include "sensing.hpp"
 #include "subsystems.hpp"
+#include "../display/dashboard.hpp"
 
 namespace auton {
     // DEFINITIONS
@@ -10,7 +11,7 @@ namespace auton {
     const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (minimum distance diff (inches))
     const double ADVNC_MAXDIFF = 3; // changes advance_dist scaling upper bound distance (inches)
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
-    const double TURN_MAXDIFF = 100; // changes turn scaling upper bound angle
+    const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
 
     // SIMPLE MOVEMENT
 
@@ -49,6 +50,7 @@ namespace auton {
         sens::update();
         while (dt > 0) {
             sens::update();
+            dashboard::update();
             dt -= sens::dt;
         }
     }
@@ -56,6 +58,7 @@ namespace auton {
         sens::update();
         while (!func()) {
             sens::update();
+            dashboard::update();
         }
     }
 
@@ -88,7 +91,7 @@ namespace auton {
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
             pos1 = drv::get_avg_ldist();
             dpos = pos1-pos0;
-            double distdiff = min(1.0, dpos/ADVNC_MAXDIFF);
+            double distdiff = min(1.0, (dist-dpos)/ADVNC_MAXDIFF);
             advance(distdiff*WHEEL_RPM*mult);
         }
         stop();
@@ -133,8 +136,8 @@ namespace auton {
             catamotor.tare_position();
             catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
         } else {
-            catamotor.set_zero_position(-cata::MTR_LOAD);
-            catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+            catamotor.set_zero_position(cata::MTR_LOAD);
+            // catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
         }
         // intake
     }

@@ -37,7 +37,7 @@ inline void opcontrol_start() {
         #elif INTAKE_TYPE == TYPE_MTR
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             intake.move(MTR_MAX);
-        } else if (pros::E_CONTROLLER_DIGITAL_L1) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             intake.move(-MTR_MAX);
         } else {
             intake.move(0);

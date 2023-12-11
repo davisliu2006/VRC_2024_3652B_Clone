@@ -14,7 +14,9 @@ namespace cata {
     const double MTR_LOAD = SLIP_LOAD*SCND_GEARING;
     const double MTR_TURN = SLIP_TURN*SCND_GEARING;
     const double MTR_UNLOAD = SLIP_UNLOAD*SCND_GEARING;
-    const bool START_STATE = false;
+    const bool START_STATE = true;
+
+    inline double last_change = 0;
 
     // sensing
     inline double mtr_angle() {return catamotor.get_position();}
@@ -29,6 +31,7 @@ namespace cata {
         return abs(load_diff) <= abs(unload_diff);
     }
     [[deprecated]] inline bool is_moving() {
+        return time()-last_change < 0.5;
         return abs(catamotor.get_target_position()-catamotor.get_position()) > 10;
     }
 
@@ -42,9 +45,11 @@ namespace cata {
         if (val && !get_state()) { // load
             nturns = round((mtr_angle()-MTR_LOAD-MTR_UNLOAD)/MTR_TURN);
             catamotor.move_absolute((nturns+1)*MTR_TURN + MTR_LOAD, CATA_RPM);
+            last_change = time();
         } else if (!val && get_state()) { // unload
             nturns = round((mtr_angle()-MTR_LOAD)/MTR_TURN);
             catamotor.move_absolute(nturns*MTR_TURN + MTR_LOAD + MTR_UNLOAD, CATA_RPM);
+            last_change = time();
         }
     }
     inline void load() {set_state(true);}

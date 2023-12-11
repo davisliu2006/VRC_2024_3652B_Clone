@@ -7,14 +7,9 @@ namespace route {
     // TEST
 
     inline void test_4() {
-        while (true) {
-            auton::wait(1);
-            cata::release();
-            auton::wait(1);
-            cata::load();
-        }
-        auton::wait(1);
-        auton::advance(TILE);
+        auton::advance_dist(TILE);
+        // auton::turn_to(90, 0.5);
+        auton::advance_dist(-TILE);
     }
 
     // ROUTES
@@ -109,12 +104,14 @@ namespace route {
     // SKILLS
 
     inline void skills() {
+        auton::turn_to(0);
         if (cata::START_STATE) {cata::release();}
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i <= 39; i++) {
             auton::wait(0.5);
             cata::load();
             auton::wait(0.5);
             cata::release();
         }
+        auton::advance_dist(1);
     }
 }

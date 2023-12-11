@@ -41,6 +41,9 @@ void initialize() {
     INTK_RPM = gear_mp[intake.get_gearing()];
     cout << "INTK_RPM: " << INTK_RPM << '\n';
     #endif
+
+    // STALLING INITIALIZATIONS
+    sens::reset();
 }
 
 /**
@@ -81,14 +84,10 @@ void competition_initialize() {
 void autonomous() {
     display::on_auton();
     auton::init();
-    route::test_route();
     static vector<function<void()>> route_mp = {
         route::skills,
-        route::close_hi,
-        route::far_hi,
-        route::close_lo,
-        route::close_hi,
-        route::test
+        route::close_1,
+        route::far_1
     };
     if (selection::route < route_mp.size()) {
         route_mp[selection::route]();

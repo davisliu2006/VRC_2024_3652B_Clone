@@ -56,14 +56,14 @@ const double WHEEL_C = WHEEL_R*M_PI*2;
 inline double WHEEL_RPM = 0; // initialize later
 inline double WHEEL_RPS = 0; // initialize later
 inline double WHEEL_LSPD = 0; // initialize later
-inline pros::Motor flmotor(17, pros::E_MOTOR_GEAR_BLUE, true);
-inline pros::Motor frmotor(20, pros::E_MOTOR_GEAR_BLUE);
-inline pros::Motor rlmotor(18, pros::E_MOTOR_GEAR_BLUE, true);
-inline pros::Motor rrmotor(19, pros::E_MOTOR_GEAR_BLUE);
+inline pros::Motor flmotor(1, pros::E_MOTOR_GEAR_BLUE, true);
+inline pros::Motor frmotor(2, pros::E_MOTOR_GEAR_BLUE);
+inline pros::Motor rlmotor(4, pros::E_MOTOR_GEAR_BLUE, true);
+inline pros::Motor rrmotor(3, pros::E_MOTOR_GEAR_BLUE);
 
 // catapult
 inline double CATA_RPM = 0; // initialize later
-inline pros::Motor catamotor(16, pros::E_MOTOR_GEAR_RED, true);
+inline pros::Motor catamotor(10, pros::E_MOTOR_GEAR_RED, true);
 
 // intake
 #define INTAKE_TYPE TYPE_MTR
@@ -79,9 +79,9 @@ inline pros::Motor intake(15);
 const int TILE = 24; // inches
 const int FIELD = TILE*6;
 const double GRVTY = 9.8;
-inline pros::IMU inertial(11);
-inline pros::Rotation trackx(9);
-inline pros::Rotation tracky(8);
+inline pros::IMU inertial(9);
+// inline pros::Rotation trackx(9);
+// inline pros::Rotation tracky(8);
 
 // FUNCTIONS
 
