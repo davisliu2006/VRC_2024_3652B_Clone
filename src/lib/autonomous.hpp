@@ -84,7 +84,7 @@ namespace auton {
         }
         stop();
     }
-    inline void advance_dist(double dist, double mult = 1) {
+    inline void advance_dist(double dist, double mult = 0.5) {
         double pos0 = drv::get_avg_ldist();
         double pos1 = pos0;
         double dpos = pos1-pos0;
@@ -98,7 +98,7 @@ namespace auton {
     }
 
     // turn angle
-    inline void turn_to(double heading, double mult = 1) {
+    inline void turn_to(double heading, double mult = 0.5) {
         sens::update();
         heading = angl_360(heading);
         while (abs(sens::rot-heading) > TURN_MINDIFF) {

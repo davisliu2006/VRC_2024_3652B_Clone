@@ -40,7 +40,7 @@ namespace cata {
     Loaded = true, unloaded = false.
     */
     inline void set_state(bool val) {
-        // if (is_moving()) {return;}
+        if (is_moving()) {return;}
         long nturns;
         if (val && !get_state()) { // load
             nturns = round((mtr_angle()-MTR_LOAD-MTR_UNLOAD)/MTR_TURN);

@@ -16,22 +16,24 @@ namespace route {
 
     inline void close_1() {
         // score triball
-        auton::advance_dist(TILE*2); // go to
+        auton::advance_dist(TILE*2.5); // go to
         auton::turn_to(90);
         intake.move(-MTR_MAX); // outtake
-        auton::advance_time(WHEEL_RPM, 0.2);
-        auton::advance_time(-WHEEL_RPM, 0.2);
+        auton::wait(0.5);
         intake.move(0);
 
         // load from match loading zone
         auton::turn_to(180); // go to
-        auton::advance_dist(TILE*2);
+        auton::advance_dist(TILE*2.5);
         auton::turn_to(90);
         intake.move(MTR_MAX); // intake
-        auton::advance_dist(TILE*0.5);
-        auton::advance_dist(-TILE*0.5);
+        auton::wait(0.5);
+        auton::advance_dist(TILE*0.3);
+        auton::turn_to(135);
+        auton::wait(1);
+        auton::turn_to(90);
+        auton::advance_dist(-TILE*0.3);
         intake.move(0);
-        cata::release(); // shoot
 
         // touch elevation bar
         auton::turn_to(-90);
@@ -43,8 +45,7 @@ namespace route {
         auton::advance_dist(TILE*2); // go to
         auton::turn_to(-90);
         intake.move(-MTR_MAX); // outtake
-        auton::advance_time(WHEEL_RPM, 0.2);
-        auton::advance_time(-WHEEL_RPM, 0.2);
+        auton::wait(0.5);
         intake.move(0);
 
         // load from match loading zone
@@ -53,10 +54,10 @@ namespace route {
         auton::turn_to(-90);
         intake.move(MTR_MAX); // intake
         auton::advance_dist(TILE*0.5);
+        auton::wait(0.5);
         auton::advance_dist(-TILE*0.5);
         intake.move(0);
         auton::turn_to(180);
-        cata::release(); // shoot
 
         // touch elevation bar
         auton::turn_to(90);
