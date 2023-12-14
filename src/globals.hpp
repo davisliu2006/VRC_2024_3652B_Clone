@@ -71,8 +71,16 @@ inline pros::Motor catamotor(10, pros::E_MOTOR_GEAR_RED, true);
 inline pros::ADIDigitalOut clawflip(1);
 inline pros::ADIDigitalOut clawopen(2);
 #elif INTAKE_TYPE == TYPE_MTR
+#define WING_TYPE TYPE_PNEU
 inline int INTK_RPM = 0; // initialize later
 inline pros::Motor intake(15);
+// wings
+#if WING_TYPE == TYPE_MTR
+inline pros::Motor wing(14, pros::E_MOTOR_GEAR_BLUE, true);
+inline pros::ADIDigitalOut push(1);
+#elif WING_TYPE == TYPE_PNEU
+inline pros::ADIDigitalOut wing(1);
+#endif
 #endif
 
 // sensing

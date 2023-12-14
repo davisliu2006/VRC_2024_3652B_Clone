@@ -8,13 +8,19 @@
 // maps joystick position to drive speed
 inline double joymap(int x){
     double temp = double(x)/MTR_MAX;
-    return temp*sqrt(abs(temp));
+    return temp*sqrt(temp);
+    // return temp*sqrt(abs(temp));
 }
 
 // start opcontrol
 inline void opcontrol_start() {
     // drivetrain
     bool drv_rev = 1; // reverse drivetrain: set to -1
+    bool drv_rev_pressed = false;
+
+    // intake
+    bool wing_active = false;
+    bool wing_btn_pressed = false;
 
     while (true) {
         // sensing
@@ -42,6 +48,22 @@ inline void opcontrol_start() {
         } else {
             intake.move(0);
         }
+        // wings
+        #if WING_TYPE == TYPE_MTR
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+            wing.move_absolute(87, BLU_RPM);
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+            wing.move_absolute(3, -BLU_RPM);
+        }
+        #elif WING_TYPE == TYPE_PNEU
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+            if (!wing_btn_pressed) {wing_active = !wing_active;}
+            wing_btn_pressed = true;
+        } else {
+            wing_btn_pressed = false;
+        }
+        wing.set_value(wing_active);
+        #endif
         #endif
 
         // catapult
@@ -49,6 +71,8 @@ inline void opcontrol_start() {
             cata::load();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             cata::release();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            catamotor.move_velocity(CATA_RPM*0.3);
         }
     }
 }

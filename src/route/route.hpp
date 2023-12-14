@@ -23,26 +23,22 @@ namespace route {
         intake.move(0);
 
         // load from match loading zone
-        auton::turn_to(180); // go to
-        auton::advance_dist(TILE*2.5);
-        auton::turn_to(90);
-        intake.move(MTR_MAX); // intake
+        auton::turn_to(0); // go to
+        auton::advance_dist(-TILE*2.5);
+        wing.set_value(true); // wing
         auton::wait(0.5);
-        auton::advance_dist(TILE*0.3);
-        auton::turn_to(135);
-        auton::wait(1);
         auton::turn_to(90);
-        auton::advance_dist(-TILE*0.3);
-        intake.move(0);
+        wing.set_value(false);
 
         // touch elevation bar
-        auton::turn_to(-90);
-        auton::advance_dist(TILE);
+        auton::turn_to(-90); // go to
+        cata::release();
+        auton::advance_dist(TILE*1.5);
     }
 
     inline void far_1() {
         // score triball
-        auton::advance_dist(TILE*2); // go to
+        auton::advance_dist(TILE*2.5); // go to
         auton::turn_to(-90);
         intake.move(-MTR_MAX); // outtake
         auton::wait(0.5);
@@ -50,18 +46,18 @@ namespace route {
 
         // load from match loading zone
         auton::turn_to(180); // go to
-        auton::advance_dist(TILE*2);
-        auton::turn_to(-90);
-        intake.move(MTR_MAX); // intake
-        auton::advance_dist(TILE*0.5);
+        auton::advance_dist(-TILE*2);
+        wing.set_value(true); // wing
         auton::wait(0.5);
-        auton::advance_dist(-TILE*0.5);
-        intake.move(0);
-        auton::turn_to(180);
+        auton::turn_to(90);
+        wing.set_value(false);
 
         // touch elevation bar
-        auton::turn_to(90);
-        auton::advance_dist(TILE);
+        auton::turn_to(180); // reposition
+        auton::advance_dist(TILE*0.5);
+        auton::turn_to(90); // go to
+        cata::release();
+        auton::advance_dist(TILE*1.5);
     }
 
     inline void test_1() {
@@ -105,8 +101,8 @@ namespace route {
     // SKILLS
 
     inline void skills() {
-        auton::turn_to(0);
-        if (cata::START_STATE) {cata::release();}
+        auton::turn_to(deg(-atan(2/3))); // aim
+        if (cata::START_STATE) {cata::release();} // shoot
         for (int i = 1; i <= 39; i++) {
             auton::wait(0.5);
             cata::load();
