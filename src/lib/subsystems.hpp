@@ -30,7 +30,7 @@ namespace cata {
         double unload_diff = angl_180(slip_angle()-SLIP_LOAD-SLIP_UNLOAD);
         return abs(load_diff) <= abs(unload_diff);
     }
-    [[deprecated]] inline bool is_moving() {
+    inline bool is_moving() {
         return time()-last_change < 0.5;
         return abs(catamotor.get_target_position()-catamotor.get_position()) > 10;
     }
