@@ -9,9 +9,9 @@ namespace route {
         auton::turn_to(-deg(atan(2/3))); // aim
         for (int i = 1; i <= 40; i++) { // shoot
             cata::release();
-            auton::wait(0.5);
+            auton::wait_until([]() {return !cata::is_moving();});
             cata::load();
-            auton::wait(0.5);
+            auton::wait_until([]() {return !cata::is_moving();});
         }
 
         // push
