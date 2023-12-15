@@ -17,11 +17,11 @@ namespace auton {
     // SIMPLE MOVEMENT
 
     // simple move
-    inline void advance(int vel) {
-        flmotor.move_velocity(vel);
-        frmotor.move_velocity(vel);
-        rlmotor.move_velocity(vel);
-        rrmotor.move_velocity(vel);
+    inline void advance(int vel, int turn = 0) {
+        flmotor.move_velocity(vel+turn);
+        frmotor.move_velocity(vel-turn);
+        rlmotor.move_velocity(vel+turn);
+        rrmotor.move_velocity(vel-turn);
     }
     inline void move(double lvel, double rvel) {
         flmotor.move_velocity(lvel);
@@ -71,50 +71,42 @@ namespace auton {
         wait(dt);
         stop();
     }
-    inline void advance_straight(double vel, double dt, double corr = 1) {
+    inline void advance_dist(double dist, double mult = 0.5, double tmult = 0) {
+        wait(0.1);
         sens::update();
-        double rot = sens::rot;
-        while (dt > 0) {
-            sens::update();
-            double rotdiff = angl_180(rot-sens::rot)/TURN_MAXDIFF;
-            flmotor.move_velocity(vel+rotdiff*corr);
-            frmotor.move_velocity(vel-rotdiff*corr);
-            rlmotor.move_velocity(vel+rotdiff*corr);
-            rrmotor.move_velocity(vel-rotdiff*corr);
-            dt -= sens::dt;
-        }
-        stop();
-    }
-    inline void advance_dist(double dist, double mult = 0.5) {
-        wait(0.2);
-        sens::update();
-        double t0 = sens::t;
-        double pos0 = drv::get_avg_ldist();
-        double pos1 = pos0;
-        double dpos = pos1-pos0;
+        double t0 = sens::t; // time easing start
+        double pos0 = drv::get_avg_ldist(); // initial pos
+        double pos1 = pos0; // final pos
+        double dpos = pos1-pos0; // pos change
+        double heading = sens::rot;
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
             sens::update();
-            pos1 = drv::get_avg_ldist();
-            dpos = pos1-pos0;
-            double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0);
-            advance(distdiff*WHEEL_RPM*mult*min((sens::t-t0)/EASE_TIME, 1.0));
+            pos1 = drv::get_avg_ldist(); // final pos
+            dpos = pos1-pos0; // pos change
+            double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0); // pos diff
+            double rotdiff = angl_180(heading-sens::rot); // rot correction
+            rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0);
+            advance( // set movement
+                distdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0),
+                rotdiff*WHEEL_RPM*tmult * min((sens::t-t0)/EASE_TIME, 1.0)
+            );
         }
         stop();
     }
 
     // turn angle
     inline void turn_to(double heading, int force_direction = 0, double mult = 0.5) {
-        wait(0.2);
+        wait(0.1);
         heading = angl_360(heading);
         sens::update();
-        double t0 = sens::t;
+        double t0 = sens::t; // time easing start
         while (abs(sens::rot-heading) > TURN_MINDIFF) {
             sens::update();
-            double rotdiff = angl_180(heading-sens::rot);
+            double rotdiff = angl_180(heading-sens::rot); // rot diff
             if (force_direction > 0 && rotdiff < 0) {rotdiff += 360;} // force cw
             else if (force_direction < 0 && rotdiff > 0) {rotdiff -= 360;} // force ccw
-            rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0);
-            turn(rotdiff*WHEEL_RPM*mult*min((sens::t-t0)/EASE_TIME, 1.0));
+            rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0); // rot diff
+            turn(rotdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0)); // set movement
         }
         stop();
     }
