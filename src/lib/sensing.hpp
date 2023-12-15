@@ -11,7 +11,7 @@ namespace sens {
     // rotational
     inline double rot = 0;
     inline double vrot = 0;
-    inline double rot_trg = -1; // rotational target
+    inline double rot_trg = 0; // rotational target
 
     // timing
     inline double t = 0;
@@ -27,7 +27,7 @@ namespace sens {
         x = 0; y = 0;
         vx = 0; vy = 0;
         rot = 0; vrot = 0;
-        rot_trg = -1;
+        rot_trg = 0;
         t = time(); // IMPORTANT: timer does not reset
     }
 

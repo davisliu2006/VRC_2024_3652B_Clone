@@ -10,6 +10,7 @@ namespace auton {
 
     const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (minimum distance diff (inches))
     const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
+    const double CORR_MAXDIFF = 30;
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
     const double EASE_TIME = 0.3; // changes time to ease movement to max speed
@@ -71,24 +72,23 @@ namespace auton {
         wait(dt);
         stop();
     }
-    inline void advance_dist(double dist, double mult = 0.5, double tmult = 0) {
+    inline void advance_dist(double dist, double mult = 0.5, double corr_mult = 0) {
         wait(0.1);
         sens::update();
         double t0 = sens::t; // time easing start
         double pos0 = drv::get_avg_ldist(); // initial pos
         double pos1 = pos0; // final pos
         double dpos = pos1-pos0; // pos change
-        double heading = sens::rot;
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
             sens::update();
             pos1 = drv::get_avg_ldist(); // final pos
             dpos = pos1-pos0; // pos change
             double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0); // pos diff
-            double rotdiff = angl_180(heading-sens::rot); // rot correction
-            rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0);
+            double rotdiff = angl_180(sens::rot_trg-sens::rot); // rot correction
+            rotdiff = limit_range(rotdiff/CORR_MAXDIFF, -1.0, 1.0);
             advance( // set movement
                 distdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0),
-                rotdiff*WHEEL_RPM*tmult * min((sens::t-t0)/EASE_TIME, 1.0)
+                rotdiff*WHEEL_RPM*corr_mult * min((sens::t-t0)/EASE_TIME, 1.0)
             );
         }
         stop();
@@ -109,6 +109,7 @@ namespace auton {
             turn(rotdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0)); // set movement
         }
         stop();
+        sens::rot_trg = heading;
     }
     inline void turn_angl(double angle) {
         sens::update();
