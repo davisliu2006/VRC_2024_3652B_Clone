@@ -113,6 +113,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    route::far_1();
     display::on_opcontrol();
     if (!auton::did_init) {auton::init();}
     auton::need_sens_reset = true;

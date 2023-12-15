@@ -6,7 +6,7 @@
 namespace route {
     inline void far_1() {
         // score triball
-        auton::advance_dist(TILE*2); // go to
+        auton::advance_dist(TILE*1.75); // go to
         auton::turn_to(-90);
         intake.move(-MTR_MAX); // outtake
         auton::wait(0.5);
