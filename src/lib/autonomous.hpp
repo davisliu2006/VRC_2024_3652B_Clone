@@ -12,7 +12,7 @@ namespace auton {
     const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
-    const double EASE_TIME = 0.3; // changes time to ease movement
+    const double EASE_TIME = 0.3; // changes time to ease movement to max speed
 
     // SIMPLE MOVEMENT
 
