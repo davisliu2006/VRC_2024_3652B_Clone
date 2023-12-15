@@ -32,7 +32,7 @@ inline void opcontrol_start() {
         // drivetrain
         double x = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X))*drv_rev;
         double y = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))*drv_rev;
-        double rot = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X));
+        double rot = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))*0.5;
         flmotor.move_velocity((y+rot)*WHEEL_RPM);
         frmotor.move_velocity((y-rot)*WHEEL_RPM);
         rlmotor.move_velocity((y+rot)*WHEEL_RPM);
@@ -41,9 +41,9 @@ inline void opcontrol_start() {
         // intake
         #if INTAKE_TYPE == TYPE_PNEU
         #elif INTAKE_TYPE == TYPE_MTR
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             intake.move(MTR_MAX);
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             intake.move(-MTR_MAX);
         } else {
             intake.move(0);
@@ -67,9 +67,9 @@ inline void opcontrol_start() {
         #endif
 
         // catapult
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             cata::load();
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             cata::release();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             catamotor.move_velocity(CATA_RPM*0.3);

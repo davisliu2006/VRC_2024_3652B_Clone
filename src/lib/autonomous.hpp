@@ -9,7 +9,7 @@ namespace auton {
     // DEFINITIONS
 
     const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (minimum distance diff (inches))
-    const double ADVNC_MAXDIFF = 3; // changes advance_dist scaling upper bound distance (inches)
+    const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
 
@@ -84,7 +84,8 @@ namespace auton {
         }
         stop();
     }
-    inline void advance_dist(double dist, double mult = 0.2) {
+    inline void advance_dist(double dist, double mult = 0.3) {
+        wait(0.2);
         double pos0 = drv::get_avg_ldist();
         double pos1 = pos0;
         double dpos = pos1-pos0;
@@ -98,7 +99,8 @@ namespace auton {
     }
 
     // turn angle
-    inline void turn_to(double heading, double mult = 0.2) {
+    inline void turn_to(double heading, double mult = 0.3) {
+        wait(0.2);
         sens::update();
         heading = angl_360(heading);
         while (abs(sens::rot-heading) > TURN_MINDIFF) {
