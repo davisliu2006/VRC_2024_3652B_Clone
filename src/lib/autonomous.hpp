@@ -12,6 +12,7 @@ namespace auton {
     const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
     const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
+    const double EASE_TIME = 0.3;
 
     // SIMPLE MOVEMENT
 
@@ -86,28 +87,34 @@ namespace auton {
     }
     inline void advance_dist(double dist, double mult = 0.5) {
         wait(0.2);
+        sens::update();
+        double t0 = sens::t;
         double pos0 = drv::get_avg_ldist();
         double pos1 = pos0;
         double dpos = pos1-pos0;
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
+            sens::update();
             pos1 = drv::get_avg_ldist();
             dpos = pos1-pos0;
-            double distdiff = max(-1.0, min(1.0, (dist-dpos)/ADVNC_MAXDIFF));
-            advance(distdiff*WHEEL_RPM*mult);
+            double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0);
+            advance(distdiff*WHEEL_RPM*mult*min((sens::t-t0)/EASE_TIME, 1.0));
         }
         stop();
     }
 
     // turn angle
-    inline void turn_to(double heading, double mult = 0.5) {
+    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5) {
         wait(0.2);
-        sens::update();
         heading = angl_360(heading);
+        sens::update();
+        double t0 = sens::t;
         while (abs(sens::rot-heading) > TURN_MINDIFF) {
             sens::update();
-            double rotdiff = angl_180(heading-sens::rot)/TURN_MAXDIFF;
-            rotdiff = max(-1.0, min(1.0, rotdiff));
-            turn(rotdiff*WHEEL_RPM*mult);
+            double rotdiff = angl_180(heading-sens::rot);
+            if (force_direction > 0 && rotdiff < 0) {rotdiff += 360;} // force cw
+            else if (force_direction < 0 && rotdiff > 0) {rotdiff -= 360;} // force ccw
+            rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0);
+            turn(rotdiff*WHEEL_RPM*mult*min((sens::t-t0)/EASE_TIME, 1.0));
         }
         stop();
     }

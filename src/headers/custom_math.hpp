@@ -18,12 +18,6 @@ inline double angl_180(double x) {
     else if (x <= -180) {x += 360;}
     return x;
 }
-inline double reduce_angl(double x, double period) {
-    x = fmod(x, period);
-    if (x > period/2) {x -= period;}
-    else if (x <= period/2) {x += period;}
-    return x;
-}
 
 // simple math
 template <class type>
@@ -32,7 +26,13 @@ template <class type>
 inline type sign(type x) {
     return (x >= 0? 1 : -1);
 }
+
+// range
 template <class type>
-inline type in_range(type var, type lo, type hi) {
+inline bool in_range(type var, type lo, type hi) {
     return lo <= var && var <= hi;
+}
+template <class type>
+inline type limit_range(type var, type lo, type hi) {
+    return max(lo, min(hi, var));
 }
