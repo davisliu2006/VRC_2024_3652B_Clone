@@ -3,6 +3,7 @@
 #include "lib/autonomous.hpp"
 #include "lib/opcontrol.hpp"
 #include "route/route.hpp"
+#include "test/auton_test.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -113,7 +114,11 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    route::far_1();
+    #ifdef AUTON_TEST // auton test
+    selection::route = AUTON_TEST;
+    autonomous();
+    #endif
+
     display::on_opcontrol();
     if (!auton::did_init) {auton::init();}
     auton::need_sens_reset = true;
