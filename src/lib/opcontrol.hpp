@@ -8,7 +8,7 @@
 // maps joystick position to drive speed
 inline double joymap(int x){
     double temp = double(x)/MTR_MAX;
-    return temp*sqrt(temp);
+    return temp*abs(temp);
     // return temp*sqrt(abs(temp));
 }
 

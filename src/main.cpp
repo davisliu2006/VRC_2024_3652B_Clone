@@ -11,6 +11,11 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    // IMPORTANT: initialize all pneumatics to 0
+    #if WING_TYPE_TYPE == TYPE_PENU
+    wing.set_value(false);
+    #endif
+
     // lcd
     display::init_all();
     display::on_init();

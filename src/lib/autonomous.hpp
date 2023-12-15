@@ -84,27 +84,27 @@ namespace auton {
         }
         stop();
     }
-    inline void advance_dist(double dist, double mult = 0.5) {
+    inline void advance_dist(double dist, double mult = 0.2) {
         double pos0 = drv::get_avg_ldist();
         double pos1 = pos0;
         double dpos = pos1-pos0;
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
             pos1 = drv::get_avg_ldist();
             dpos = pos1-pos0;
-            double distdiff = min(1.0, (dist-dpos)/ADVNC_MAXDIFF);
+            double distdiff = max(-1.0, min(1.0, (dist-dpos)/ADVNC_MAXDIFF));
             advance(distdiff*WHEEL_RPM*mult);
         }
         stop();
     }
 
     // turn angle
-    inline void turn_to(double heading, double mult = 0.5) {
+    inline void turn_to(double heading, double mult = 0.2) {
         sens::update();
         heading = angl_360(heading);
         while (abs(sens::rot-heading) > TURN_MINDIFF) {
             sens::update();
             double rotdiff = angl_180(heading-sens::rot)/TURN_MAXDIFF;
-            rotdiff = min(1.0, rotdiff);
+            rotdiff = max(-1.0, min(1.0, rotdiff));
             turn(rotdiff*WHEEL_RPM*mult);
         }
         stop();

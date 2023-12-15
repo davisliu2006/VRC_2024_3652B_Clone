@@ -14,14 +14,19 @@ namespace route {
 
         // load from match loading zone
         auton::turn_to(0); // go to
-        auton::advance_dist(-TILE*2.5);
+        auton::advance_dist(-TILE*1.5);
+        auton::turn_to(-45);
+        auton::advance_dist(-TILE*M_SQRT1_2);
         wing.set_value(true); // wing
         auton::wait(0.5);
-        auton::turn_to(90);
+        auton::turn_to(45);
+        auton::turn_to(135); // go to
         wing.set_value(false);
 
         // touch elevation bar
-        auton::turn_to(-90); // go to
+        auton::turn_to(-135); // reposition
+        auton::advance_dist(TILE*M_SQRT1_2);
+        auton::turn_to(-90);
         cata::release();
         auton::advance_dist(TILE*1.5);
     }
