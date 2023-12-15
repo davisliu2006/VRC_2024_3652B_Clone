@@ -41,7 +41,7 @@ inline void opcontrol_start() {
         // intake
         #if INTAKE_TYPE == TYPE_PNEU
         #elif INTAKE_TYPE == TYPE_MTR
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && cata::get_state()) {
             intake.move(MTR_MAX);
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             intake.move(-MTR_MAX);

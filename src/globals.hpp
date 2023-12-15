@@ -56,8 +56,8 @@ const double WHEEL_C = WHEEL_R*M_PI*2;
 inline double WHEEL_RPM = 0; // initialize later
 inline double WHEEL_RPS = 0; // initialize later
 inline double WHEEL_LSPD = 0; // initialize later
-inline pros::Motor flmotor(1, pros::E_MOTOR_GEAR_BLUE, true);
-inline pros::Motor frmotor(2, pros::E_MOTOR_GEAR_BLUE);
+inline pros::Motor flmotor(11, pros::E_MOTOR_GEAR_BLUE, true);
+inline pros::Motor frmotor(12, pros::E_MOTOR_GEAR_BLUE);
 inline pros::Motor rlmotor(4, pros::E_MOTOR_GEAR_BLUE, true);
 inline pros::Motor rrmotor(3, pros::E_MOTOR_GEAR_BLUE);
 

@@ -72,7 +72,7 @@ namespace auton {
         wait(dt);
         stop();
     }
-    inline void advance_dist(double dist, double mult = 0.5, double corr_mult = 0) {
+    inline void advance_dist(double dist, double mult = 0.5, double corr_mult = 0.5) {
         wait(0.1);
         sens::update();
         double t0 = sens::t; // time easing start
@@ -86,6 +86,7 @@ namespace auton {
             double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0); // pos diff
             double rotdiff = angl_180(sens::rot_trg-sens::rot); // rot correction
             rotdiff = limit_range(rotdiff/CORR_MAXDIFF, -1.0, 1.0);
+            rotdiff *= abs(rotdiff);
             advance( // set movement
                 distdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0),
                 rotdiff*WHEEL_RPM*corr_mult * min((sens::t-t0)/EASE_TIME, 1.0)
