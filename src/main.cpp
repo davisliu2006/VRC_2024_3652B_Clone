@@ -3,7 +3,10 @@
 #include "lib/autonomous.hpp"
 #include "lib/opcontrol.hpp"
 #include "route/route.hpp"
+
+#if __has_include("test/auton_test.hpp")
 #include "test/auton_test.hpp"
+#endif
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
