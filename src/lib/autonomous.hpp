@@ -72,7 +72,7 @@ namespace auton {
         wait(dt);
         stop();
     }
-    inline void advance_dist(double dist, double mult = 0.5, double corr_mult = 0.5) {
+    inline void advance_dist(double dist, double mult = 0.8, double corr_mult = 0.5) {
         wait(0.1);
         sens::update();
         double t0 = sens::t; // time easing start
