@@ -8,12 +8,12 @@ namespace route {
         sens::ROT_OFFSET = 34;
 
         // match loads
-        /*for (int i = 1; i <= 40; i++) { // shoot
+        for (int i = 1; i <= 40; i++) { // shoot
             cata::release();
             auton::wait_until([]() {return !cata::is_moving();});
             cata::load();
             auton::wait_until([]() {return !cata::is_moving();});
-        }*/
+        }
         auton::advance_dist(-2);
 
         // push

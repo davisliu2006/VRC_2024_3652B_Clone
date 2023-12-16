@@ -96,7 +96,7 @@ namespace auton {
     }
 
     // turn angle
-    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5, double max_time = 100) {
+    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5, double max_time = 2) {
         wait(0.1);
         heading = angl_360(heading);
         sens::update();
