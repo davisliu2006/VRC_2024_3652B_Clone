@@ -3,6 +3,8 @@
 #include "../globals.hpp"
 
 namespace sens {
+    inline double ROT_OFFSET = 0;
+
     //positional
     inline double x = 0, y = 0;
     inline double vx = 0, vy = 0;
@@ -47,7 +49,7 @@ namespace sens {
         vx += ax*dt*cos(rot); vy += ay*dt*sin(rot);
 
         // orientation
-        rot = inertial.get_heading();
+        rot = inertial.get_heading()+ROT_OFFSET;
         vrot = inertial.get_gyro_rate().z;
 
         // advanced

@@ -96,7 +96,7 @@ namespace auton {
     }
 
     // turn angle
-    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5) {
+    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5, double max_time = 100) {
         wait(0.1);
         heading = angl_360(heading);
         sens::update();
@@ -108,6 +108,7 @@ namespace auton {
             else if (force_direction < 0 && rotdiff > 0) {rotdiff -= 360;} // force ccw
             rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0); // rot diff
             turn(rotdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0)); // set movement
+            if (sens::t-t0 > max_time) {return;}
         }
         stop();
         sens::rot_trg = heading;

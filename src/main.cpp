@@ -91,6 +91,7 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
+    sens::ROT_OFFSET = 0;
     display::on_auton();
     auton::init();
     static vector<function<void()>> route_mp = {
