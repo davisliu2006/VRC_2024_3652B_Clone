@@ -17,7 +17,7 @@ namespace route {
         auton::advance_dist(-2);
 
         // push
-        auton::turn_to(180); // go to
+        auton::turn_to(175); // go to
         auton::advance_dist(TILE*3);
         auton::turn_to(-90);
         intake.move(-MTR_MAX); // outtake
