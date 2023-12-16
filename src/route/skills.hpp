@@ -26,7 +26,7 @@ namespace route {
         auton::wait(0.5);
         auton::advance_dist(TILE);
         auton::turn_to(180);
-        auton::turn_to(90);
+        auton::turn_to(135);
         wing.set_value(false);
         auton::turn_to(0, 0, 0.5, 1);
         auton::advance_time(-WHEEL_RPM, 0.3);
