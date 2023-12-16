@@ -18,7 +18,7 @@ namespace route {
         // load from match loading zone
         auton::turn_to(0); // go to
         auton::advance_dist(-TILE);
-        auton::turn_to(45);
+        auton::turn_to(4);
         auton::advance_dist(-TILE*M_SQRT1_2);
         wing.set_value(true); // wing
         auton::wait(0.5);
