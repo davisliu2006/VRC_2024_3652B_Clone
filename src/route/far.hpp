@@ -12,7 +12,7 @@ namespace route {
         auton::wait(0.5);
         intake.move(0);
         auton::turn_to(90); // back in
-        auton::advance_time(-WHEEL_RPM, 0.3);
+        auton::advance_time(-WHEEL_RPM, 0.4);
         auton::advance_dist(TILE*0.3);
 
         // load from match loading zone

@@ -15,7 +15,7 @@ namespace selection {
     void init(); void update();
 
     // route selection
-    inline int route = 1;
+    inline int route = 2;
     inline vector<Button*> buttons = {
         new Button("Skills", SX*0.25, SY*0.1, SX*0.5, SY*0.2, btnpress),
         new Button("Close 1", SX*0.125, SY*0.3, SX*0.25, SY*0.2, btnpress),
