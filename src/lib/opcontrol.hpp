@@ -73,7 +73,8 @@ inline void opcontrol_start() {
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             cata::load();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            cata::release();
+            if (cata::get_state()) {cata::release();}
+            else {cata::load();}
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
             catamotor.move_velocity(CATA_RPM*0.3);
         }
