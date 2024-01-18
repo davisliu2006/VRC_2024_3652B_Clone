@@ -24,36 +24,32 @@ namespace cata {
     /*
     Loaded = true, unloaded = false.
     */
-    inline bool get_state() {
+    inline bool get_state() { // get state
         double rot = catamotor.get_position();
         double load_diff = angl_180(slip_angle()-SLIP_LOAD);
         double unload_diff = angl_180(slip_angle()-SLIP_LOAD-SLIP_UNLOAD);
         return abs(load_diff) <= abs(unload_diff);
     }
-    inline bool is_moving() {
+    inline bool is_moving() { // is moving
         return time()-last_change < 0.5;
         return abs(catamotor.get_target_position()-catamotor.get_position()) > 10;
     }
 
     // movement
-    /*
-    Loaded = true, unloaded = false.
-    */
-    inline void set_state(bool val) {
-        if (is_moving()) {return;}
-        long nturns;
-        if (val && !get_state()) { // load
-            nturns = round((mtr_angle()-MTR_LOAD-MTR_UNLOAD)/MTR_TURN);
+    inline void load() { // load
+        if (!is_moving() && !get_state()) {
+            long nturns = round((mtr_angle()-MTR_LOAD-MTR_UNLOAD)/MTR_TURN);
             catamotor.move_absolute((nturns+1)*MTR_TURN + MTR_LOAD, CATA_RPM);
             last_change = time();
-        } else if (!val && get_state()) { // unload
-            nturns = round((mtr_angle()-MTR_LOAD)/MTR_TURN);
+        }
+    }
+    inline void release() { // release
+        if (!is_moving() && get_state()) {
+            long nturns = round((mtr_angle()-MTR_LOAD)/MTR_TURN);
             catamotor.move_absolute(nturns*MTR_TURN + MTR_LOAD + MTR_UNLOAD, CATA_RPM);
             last_change = time();
         }
     }
-    inline void load() {set_state(true);}
-    inline void release() {set_state(false);}
 }
 
 // intake

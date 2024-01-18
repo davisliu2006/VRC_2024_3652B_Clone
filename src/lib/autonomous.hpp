@@ -127,22 +127,27 @@ namespace auton {
     such as calibrating moving parts.
     */
     inline void init() {
-        did_init = true;
         // sensing
+        // if previous calibration is invalidated
         if (need_sens_reset && pros::competition::is_autonomous()) {
             sens::reset();
         }
         need_sens_reset = false;
+
         // catapult
-        if (!cata::START_STATE) {
-            catamotor.move(MTR_MAX*0.1);
-            wait(0.3);
-            catamotor.tare_position();
-            catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
-        } else {
-            catamotor.set_zero_position(cata::MTR_LOAD);
-            // catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+        if (!did_init) { // only initialize once
+            if (!cata::START_STATE) { // start unloaded
+                catamotor.move(MTR_MAX*0.1);
+                wait(0.3);
+                catamotor.tare_position();
+                catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+            } else { // start loaded
+                catamotor.set_zero_position(cata::MTR_LOAD-10);
+                catamotor.move_absolute(cata::MTR_LOAD, CATA_RPM);
+            }
         }
-        // intake
+
+        // initialize finish
+        did_init = true;
     }
 }
