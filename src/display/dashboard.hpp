@@ -67,7 +67,7 @@ namespace dashboard {
                 string txt;
                 for (int j = 0; j < line.size(); j++) {
                     txt += line[j]();
-                    if (j != line.size()-1) {txt += "\t";}
+                    if (j != line.size()-1) {txt += "  ";}
                 }
                 pros::screen::print(pros::E_TEXT_SMALL, 5, 10+i*20, txt.c_str());
             }

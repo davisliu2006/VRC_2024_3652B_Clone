@@ -5,7 +5,43 @@
 
 namespace route {
     inline void skills() {
-        sens::ROT_OFFSET = 34;
+        sens::ROT_OFFSET = 180+27; // arctan(1/2)
+
+        // match loads
+        for (int i = 1; i <= 40; i++) { // shoot
+            cata::release();
+            auton::wait_until([]() {return !cata::is_moving();});
+            cata::load();
+            auton::wait_until([]() {return !cata::is_moving();});
+        }
+        auton::advance_dist(-2);
+
+        // push
+        auton::turn_to(-45); // go to
+        auton::advance_dist(TILE*M_SQRT1_2+2);
+        auton::turn_to(0);
+        auton::advance_dist(TILE*3);
+        auton::turn_to(90);
+        wing.set_value(true); // wing
+        auton::advance_dist(TILE);
+        auton::turn_to(0); // goal push
+        wing.set_value(false); // retract
+        auton::turn_to(180); // go to
+        auton::advance_dist(TILE*0.5);
+        auton::turn_to(90);
+        wing.set_value(true); // wing
+        auton::advance_dist(TILE*1.5);
+        auton::turn_to(0);
+        auton::advance_time(WHEEL_RPM, 1); // goal push
+        auton::advance_time(-WHEEL_RPM, 0.5);
+        auton::turn_to(90); // go to
+        auton::advance_dist(TILE*0.5);
+        auton::turn_to(0);
+        auton::advance_time(WHEEL_RPM, 1); // goal push
+    }
+    
+    inline void skills_old() {
+        sens::ROT_OFFSET = 34; // arctan(2/3)
 
         // match loads
         for (int i = 1; i <= 40; i++) { // shoot

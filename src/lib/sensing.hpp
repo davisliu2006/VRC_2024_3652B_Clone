@@ -49,7 +49,7 @@ namespace sens {
         vx += ax*dt*cos(rot); vy += ay*dt*sin(rot);
 
         // orientation
-        rot = inertial.get_heading()+ROT_OFFSET;
+        rot = angl_360(inertial.get_heading()+ROT_OFFSET);
         vrot = inertial.get_gyro_rate().z;
 
         // advanced
