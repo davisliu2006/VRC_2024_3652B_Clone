@@ -5,7 +5,7 @@
 
 namespace route {
     inline void skills() {
-        sens::ROT_OFFSET = 180+27; // arctan(1/2)
+        sens::ROT_OFFSET = 180+27; // 180+arctan(1/2)
 
         // match loads
         for (int i = 1; i <= 40; i++) { // shoot
@@ -39,7 +39,7 @@ namespace route {
         auton::turn_to(0);
         auton::advance_time(WHEEL_RPM, 1); // goal push
     }
-    
+
     inline void skills_old() {
         sens::ROT_OFFSET = 34; // arctan(2/3)
 
