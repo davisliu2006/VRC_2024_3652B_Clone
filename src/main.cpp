@@ -92,12 +92,14 @@ void competition_initialize() {
  */
 void autonomous() {
     sens::ROT_OFFSET = 0;
+    sens::rot_trg = sens::ROT_OFFSET;
     display::on_auton();
     auton::init();
     static vector<function<void()>> route_mp = {
         route::skills,
         route::close_1,
-        route::far_1
+        route::far_1,
+        route::skills_test
     };
     if (selection::route < route_mp.size()) {
         route_mp[selection::route]();

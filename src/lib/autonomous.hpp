@@ -12,7 +12,7 @@ namespace auton {
     const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
     const double CORR_MAXDIFF = 30;
     const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
-    const double TURN_MAXDIFF = 90; // changes turn scaling upper bound angle
+    const double TURN_MAXDIFF = 75; // changes turn scaling upper bound angle
     const double EASE_TIME = 0.3; // changes time to ease movement to max speed
 
     // SIMPLE MOVEMENT
@@ -81,6 +81,7 @@ namespace auton {
         double dpos = pos1-pos0; // pos change
         while (abs(dist-dpos) > ADVNC_MINDIFF) {
             sens::update();
+            dashboard::update();
             pos1 = drv::get_avg_ldist(); // final pos
             dpos = pos1-pos0; // pos change
             double distdiff = limit_range((dist-dpos)/ADVNC_MAXDIFF, -1.0, 1.0); // pos diff
@@ -103,12 +104,13 @@ namespace auton {
         double t0 = sens::t; // time easing start
         while (abs(sens::rot-heading) > TURN_MINDIFF) {
             sens::update();
+            dashboard::update();
             double rotdiff = angl_180(heading-sens::rot); // rot diff
             if (force_direction > 0 && rotdiff < 0) {rotdiff += 360;} // force cw
             else if (force_direction < 0 && rotdiff > 0) {rotdiff -= 360;} // force ccw
             rotdiff = limit_range(rotdiff/TURN_MAXDIFF, -1.0, 1.0); // rot diff
             turn(rotdiff*WHEEL_RPM*mult * min((sens::t-t0)/EASE_TIME, 1.0)); // set movement
-            if (sens::t-t0 > max_time) {return;}
+            if (sens::t-t0 > max_time) {break;}
         }
         stop();
         sens::rot_trg = heading;

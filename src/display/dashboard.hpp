@@ -10,7 +10,7 @@ namespace dashboard {
 
     //DEFINITIONS
 
-    const double delay = 1;
+    const double DELAY = 1;
     inline double displ_time = 0;
 
     // lines to display
@@ -34,18 +34,13 @@ namespace dashboard {
         // intake
         #if INTAKE_TYPE == TYPE_MTR
         {
-            []() {return "Intake: "+to_string(int(intake.get_temperature()))+"°C";},
+            []() {return "Intake: "+to_string(int(intake.get_temperature()))+"°C";}
         },
         #endif
-        // errors
+        // sensing
         {
-            []() {
-                if ((inertial.get_status() & pros::c::E_IMU_STATUS_ERROR) == pros::c::E_IMU_STATUS_ERROR) {
-                    return "ERROR: IMU NOT FOUND";
-                } else {
-                    return "";
-                }
-            }
+            []() {return "Rot: "+to_string(sens::rot);},
+            []() {return "Trg: "+to_string(sens::rot_trg);}
         }
     };
 
@@ -59,8 +54,8 @@ namespace dashboard {
     Call this every frame to update and display the dashboard.
     */
     inline void update() {
-        if (displ_time >= delay) {
-            displ_time -= delay;
+        if (displ_time >= DELAY) {
+            displ_time -= DELAY;
             display::update();
             for (int i = 0; i < display_lines.size(); i++) {
                 auto& line = display_lines[i];

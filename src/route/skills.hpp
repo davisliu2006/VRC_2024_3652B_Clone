@@ -4,26 +4,28 @@
 #include "../lib/autonomous.hpp"
 
 namespace route {
-    inline void skills() {
-        sens::ROT_OFFSET = 180+27; // 180+arctan(1/2)
+    // SUBROUTES
 
-        // match loads
+    // match loads
+    inline void _skills_matchload() {
         for (int i = 1; i <= 40; i++) { // shoot
             cata::release();
             auton::wait_until([]() {return !cata::is_moving();});
             cata::load();
             auton::wait_until([]() {return !cata::is_moving();});
         }
-        auton::advance_dist(-2);
-
-        // push
+    }
+    // push
+    inline void _skills_push() {
+        auton::advance_dist(-6);
         auton::turn_to(-45); // go to
-        auton::advance_dist(TILE*M_SQRT1_2+2);
+        auton::advance_dist(TILE*M_SQRT1_2+4);
         auton::turn_to(0);
-        auton::advance_dist(TILE*3);
+        auton::wait(1);
+        auton::advance_dist(TILE*3.5);
         auton::turn_to(90);
         wing.set_value(true); // wing
-        auton::advance_dist(TILE);
+        auton::advance_dist(TILE*1.5);
         auton::turn_to(0); // goal push
         wing.set_value(false); // retract
         auton::turn_to(180); // go to
@@ -38,6 +40,20 @@ namespace route {
         auton::advance_dist(TILE*0.5);
         auton::turn_to(0);
         auton::advance_time(WHEEL_RPM, 1); // goal push
+    }
+
+    // ROUTES
+
+    inline void skills() {
+        sens::ROT_OFFSET = 203; // experimentally measured value
+        sens::rot_trg = sens::ROT_OFFSET;
+        _skills_matchload();
+        _skills_push();    
+    }
+    inline void skills_test() {
+        sens::ROT_OFFSET = 203; // experimentally measured value
+        sens::rot_trg = sens::ROT_OFFSET;
+        _skills_push();
     }
 
     inline void skills_old() {
