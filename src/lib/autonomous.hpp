@@ -8,11 +8,11 @@
 namespace auton {
     // DEFINITIONS
 
-    const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (minimum distance diff (inches))
-    const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound distance (inches)
-    const double CORR_MAXDIFF = 30;
-    const double TURN_MINDIFF = 5; // changes turn tolerence (minimum angle diff)
-    const double TURN_MAXDIFF = 75; // changes turn scaling upper bound angle
+    const double ADVNC_MINDIFF = 1; // changes advance_dist tolerence (inches)
+    const double ADVNC_MAXDIFF = 12; // changes advance_dist scaling upper bound (inches)
+    const double CORR_MAXDIFF = 30; // changes rot correction scaling upper bound (deg)
+    const double TURN_MINDIFF = 5; // changes turn tolerence (deg)
+    const double TURN_MAXDIFF = 60; // changes turn scaling upper bound (deg)
     const double EASE_TIME = 0.3; // changes time to ease movement to max speed
 
     // SIMPLE MOVEMENT
@@ -67,9 +67,18 @@ namespace auton {
     // MEASURED MOVEMENT
 
     // move distance
-    inline void advance_time(double vel, double dt) {
-        advance(vel);
-        wait(dt);
+    inline void advance_time(double vel, double dt, double corr_mult = 0) {
+        wait(0.1);
+        sens::update();
+        while (dt > 0) {
+            sens::update();
+            dashboard::update();
+            dt -= sens::dt;
+            double rotdiff = angl_180(sens::rot_trg-sens::rot); // rot correction
+            rotdiff = limit_range(rotdiff/CORR_MAXDIFF, -1.0, 1.0);
+            rotdiff *= abs(rotdiff);
+            advance(vel, rotdiff*WHEEL_RPM*corr_mult); // set movement
+        }
         stop();
     }
     inline void advance_dist(double dist, double mult = 0.8, double corr_mult = 0.8) {
@@ -97,7 +106,7 @@ namespace auton {
     }
 
     // turn angle
-    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5, double max_time = 2) {
+    inline void turn_to(double heading, int force_direction = 0, double mult = 0.5, double max_time = 1) {
         wait(0.1);
         heading = angl_360(heading);
         sens::update();

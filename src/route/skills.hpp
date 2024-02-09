@@ -8,12 +8,14 @@ namespace route {
 
     // match loads
     inline void _skills_matchload() {
+        intake.move(-MTR_MAX);
         for (int i = 1; i <= 40; i++) { // shoot
             cata::release();
             auton::wait_until([]() {return !cata::is_moving();});
             cata::load();
             auton::wait_until([]() {return !cata::is_moving();});
         }
+        intake.move(0);
     }
     // push
     inline void _skills_push() {
@@ -26,20 +28,20 @@ namespace route {
         auton::turn_to(90);
         wing.set_value(true); // wing
         auton::advance_dist(TILE*1.5);
-        auton::turn_to(0); // goal push
+        // auton::turn_to(0); // goal push
         wing.set_value(false); // retract
         auton::turn_to(180); // go to
         auton::advance_dist(TILE*0.5);
         auton::turn_to(90);
         wing.set_value(true); // wing
-        auton::advance_dist(TILE*1.5);
+        auton::advance_dist(TILE*1.2);
         auton::turn_to(0);
-        auton::advance_time(WHEEL_RPM, 1); // goal push
-        auton::advance_time(-WHEEL_RPM, 0.5);
+        auton::advance_time(WHEEL_RPM, 1, 0.8); // goal push
+        auton::advance_time(-WHEEL_RPM, 0.7, 0.8);
         auton::turn_to(90); // go to
-        auton::advance_dist(TILE*0.5);
+        auton::advance_dist(TILE*1.2);
         auton::turn_to(0);
-        auton::advance_time(WHEEL_RPM, 1); // goal push
+        auton::advance_time(WHEEL_RPM, 1, 0.8); // goal push
     }
 
     // ROUTES
