@@ -21,17 +21,17 @@ namespace route {
         auton::turn_to(0); // go to
         auton::advance_dist(-TILE*1.5, 0.8, 0);
         auton::turn_to(-45);
-        auton::advance_dist(-TILE*M_SQRT1_2);
+        auton::advance_dist(-TILE*(M_SQRT1_2 + 0.4));
         wing.set_value(true); // wing
         auton::wait(0.5);
-        auton::turn_to(135, 1);
+        auton::turn_to(135, 1); // spin spin spin
         wing.set_value(false);
 
         // touch elevation bar
         auton::turn_to(-135); // reposition
         auton::advance_dist(TILE*M_SQRT1_2);
-        auton::turn_to(-90); // go to
+        auton::turn_to(-100); // go to
         cata::release();
-        auton::advance_dist(TILE*1.3);
+        auton::advance_dist(TILE*1.45);
     }
 }

@@ -32,6 +32,6 @@ namespace route {
         auton::advance_dist(TILE*M_SQRT1_2-4);
         auton::turn_to(90); // go to
         cata::release();
-        auton::advance_dist(TILE*1.5);
+        auton::advance_dist(TILE*1.51);
     }
 }
