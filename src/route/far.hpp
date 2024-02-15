@@ -8,20 +8,21 @@ namespace route {
 
     inline void far_1() {
         // score triball
-        auton::advance_dist(TILE*2.25); // go to
+        auton::advance_dist(TILE*2.5); // go to
         auton::turn_to(-90);
         intake.move(-MTR_MAX); // outtake
         auton::wait(0.5);
         intake.move(0);
-        auton::turn_to(90); // back in
-        auton::advance_time(-WHEEL_RPM, 0.4);
-        auton::advance_dist(TILE*0.3);
+        auton::advance_time(-WHEEL_RPM, 0.2); // don't knock out triball
+        auton::turn_to(90, -1); // back in
+        auton::advance_time(-WHEEL_RPM, 0.5);
+        auton::advance_dist(TILE*0.4);
 
         // load from match loading zone
         auton::turn_to(15); // go to
         auton::advance_dist(-TILE*1.25);
         auton::turn_to(55);
-        auton::advance_dist(-TILE*M_SQRT1_2-2);
+        auton::advance_dist(-TILE*M_SQRT1_2-8);
         wing.set_value(true); // wing
         auton::wait(0.5);
         auton::turn_to(-135, 1);
@@ -31,7 +32,7 @@ namespace route {
         auton::turn_to(135); // reposition
         auton::advance_dist(TILE*M_SQRT1_2-4);
         auton::turn_to(90); // go to
-        cata::release();
-        auton::advance_dist(TILE*1.51);
+        // cata::release();
+        auton::advance_dist(TILE*1.5);
     }
 }

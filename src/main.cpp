@@ -91,7 +91,6 @@ void competition_initialize() {
  * from where it left off.
  */
 void autonomous() {
-    // for eric
     sens::ROT_OFFSET = 0;
     sens::rot_trg = sens::ROT_OFFSET;
     display::on_auton();
