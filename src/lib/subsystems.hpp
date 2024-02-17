@@ -20,20 +20,25 @@ namespace cata {
     inline double last_load = 0;
 
     // sensing
+    #if CATA_NMTR == 1
     inline double mtr_angle() {return catamotor.get_position();}
     inline double slip_angle() {return mtr_angle()/SCND_GEARING;}
+    #else
+    inline double mtr_angle() {return vec_avg(catamotor.get_positions());}
+    inline double slip_angle() {return mtr_angle()/SCND_GEARING;}
+    #endif
+
     /*
     Loaded = true, unloaded = false.
     */
     inline bool get_state() { // get state
-        double rot = catamotor.get_position();
+        double rot = mtr_angle();
         double load_diff = angl_180(slip_angle()-SLIP_LOAD);
         double unload_diff = angl_180(slip_angle()-SLIP_LOAD-SLIP_UNLOAD);
         return abs(load_diff) <= abs(unload_diff);
     }
     inline bool is_moving() { // is moving
         return time()-last_load < 0.5 || time()-last_release < 0.5;
-        return abs(catamotor.get_target_position()-catamotor.get_position()) > 10;
     }
 
     // movement

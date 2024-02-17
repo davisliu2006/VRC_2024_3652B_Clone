@@ -39,9 +39,15 @@ void initialize() {
     cout << "WHEEL_RPM: " << WHEEL_RPM << '\n';
 
     // catapult
+    #if CATA_NMTR == 1
     catamotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
     catamotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     CATA_RPM = gear_mp[catamotor.get_gearing()];
+    #else
+    catamotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+    catamotor.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+    CATA_RPM = gear_mp[catamotor[0].get_gearing()];
+    #endif
     cout << "CATA_RPM: " << CATA_RPM << '\n';
 
     // intake

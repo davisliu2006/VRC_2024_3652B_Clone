@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <vector>
 
 using namespace std;
 
@@ -35,4 +36,11 @@ inline bool in_range(type var, type lo, type hi) {
 template <class type>
 inline type limit_range(type var, type lo, type hi) {
     return max(lo, min(hi, var));
+}
+
+// average
+inline double vec_avg(const vector<double>& vec) {
+    double tot = 0;
+    for (const double& x: vec) {tot += x;}
+    return tot/vec.size();
 }

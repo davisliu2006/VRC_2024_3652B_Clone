@@ -27,7 +27,12 @@ namespace dashboard {
         },
         // catapult
         {
+            #if CATA_NMTR == 1
             []() {return "Cata: "+to_string(int(catamotor.get_temperature()))+"°C";},
+            #else
+            []() {return "Cata: "+to_string(int(catamotor[0].get_temperature()))+"°C "
+                +to_string(int(catamotor[1].get_temperature()))+"°C ";},
+            #endif
             []() {return "is_moving: "+string(cata::is_moving()? "YES":"NO");},
             []() {return "state: "+string(cata::get_state()? "loaded":"unloaded");},
         },
