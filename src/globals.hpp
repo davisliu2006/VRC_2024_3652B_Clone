@@ -62,14 +62,14 @@ inline pros::Motor rlmotor(4, pros::E_MOTOR_GEAR_BLUE, true);
 inline pros::Motor rrmotor(3, pros::E_MOTOR_GEAR_BLUE);
 
 // catapult
-#define CATA_NMTR 1
+#define CATA_NMTR 2
 inline double CATA_RPM = 0; // initialize later
 #if CATA_NMTR == 1
 inline pros::Motor catamotor(10, pros::E_MOTOR_GEAR_RED, true);
 #else
 inline pros::MotorGroup catamotor({
     pros::Motor(10, pros::E_MOTOR_GEAR_RED, true),
-    pros::Motor(9, pros::E_MOTOR_GEAR_RED, true),
+    pros::Motor(1, pros::E_MOTOR_GEAR_RED),
 });
 #endif
 

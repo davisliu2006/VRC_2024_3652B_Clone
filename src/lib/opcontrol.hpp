@@ -22,6 +22,10 @@ inline void opcontrol_start() {
     bool wing_active = false;
     bool wing_btn_pressed = false;
 
+    // catapult
+    bool cata_inc_pressed = false;
+    bool cata_dec_pressed = false;
+
     while (true) {
         // sensing
         sens::update();
@@ -75,8 +79,21 @@ inline void opcontrol_start() {
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (cata::get_state()) {cata::release();}
             else {cata::load();}
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
             catamotor.move(0);
         }
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+            if (!cata_inc_pressed && cata::load_delay < 0.7) {cata::load_delay += 0.1;}
+            cata_inc_pressed = true;
+        } else {
+            cata_inc_pressed = false;
+        }
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+            if (!cata_dec_pressed && cata::load_delay > 0.5) {cata::load_delay -= 0.1;}
+            cata_dec_pressed = true;
+        } else {
+            cata_dec_pressed = false;
+        }
+        master.set_text(0, 0, "cata::delay = 0."+to_string(int(cata::load_delay*10)));
     }
 }

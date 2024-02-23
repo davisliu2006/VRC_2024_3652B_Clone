@@ -18,6 +18,8 @@ namespace cata {
 
     inline double last_release = 0;
     inline double last_load = 0;
+    inline double release_delay = 0.5;
+    inline double load_delay = 0.5;
 
     // sensing
     #if CATA_NMTR == 1
@@ -38,7 +40,7 @@ namespace cata {
         return abs(load_diff) <= abs(unload_diff);
     }
     inline bool is_moving() { // is moving
-        return time()-last_load < 0.5 || time()-last_release < 0.5;
+        return time()-last_load < load_delay || time()-last_release < release_delay;
     }
 
     // movement
