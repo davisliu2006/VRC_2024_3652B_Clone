@@ -94,6 +94,6 @@ inline void opcontrol_start() {
         } else {
             cata_dec_pressed = false;
         }
-        master.set_text(0, 0, "cata::delay = 0."+to_string(int(cata::load_delay*10)));
+        master.set_text(0, 0, "cata::delay = 0."+to_string(int(cata::load_delay*100)));
     }
 }
