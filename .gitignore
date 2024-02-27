@@ -11,6 +11,7 @@ src/test/
 .DS_Store
 common.mk
 compile_commands.json
+gen_compile.py
 Makefile
 project.pros
 temp.errors
