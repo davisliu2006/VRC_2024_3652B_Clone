@@ -34,8 +34,8 @@ inline void opcontrol_start() {
         dashboard::update();
 
         // drivetrain
-        double x = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X))*drv_rev*0.8;
-        double y = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))*drv_rev*0.8;
+        double x = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X))*drv_rev;
+        double y = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))*drv_rev;
         double rot = joymap(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))*0.4;
         flmotor.move_velocity((y+rot)*WHEEL_RPM);
         frmotor.move_velocity((y-rot)*WHEEL_RPM);
@@ -76,9 +76,11 @@ inline void opcontrol_start() {
         // catapult
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             cata::load();
+            intake.move(-MTR_MAX);
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
             if (cata::get_state()) {cata::release();}
             else {cata::load();}
+            intake.move(-MTR_MAX);
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
             catamotor.move(0);
         }
