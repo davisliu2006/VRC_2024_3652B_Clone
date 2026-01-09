@@ -1,2 +1,2 @@
-# VRC-2024B
+# VRC_2024_3652B
 3652B UHS Robotics Code for VRC 2023-2024 (Over Under)
