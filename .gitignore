@@ -4,7 +4,6 @@
 .vscode/
 bin/
 firmware/
-include/
 src/test/
 
 # files
